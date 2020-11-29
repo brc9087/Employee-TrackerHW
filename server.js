@@ -20,7 +20,7 @@ var connection = mysql.createConnection({
 // connect to the mysql server and sql database
 connection.connect(function(err) {
   if (err) throw err;
-  // run the start function after the connection is made to prompt the user
+  // Starts the app
   start();
 });
 
@@ -38,20 +38,106 @@ function start() {
                 "View roles",
                 "View employees",
                 "Update employee roles"]
-                
+
     })
     .then(function(answer) {
       // based on their answer, either call the bid or the post functions
-      if (answer.postOrBid === "POST") {
-        postAuction();
+      if (answer.choice === "Add departments") {
+        addDepartments();
       }
-      else if(answer.postOrBid === "BID") {
-        bidAuction();
-      } else{
+      else if(answer.choice === "Add roles") {
+        addRoles();
+      } 
+      
+      else if(answer.choice === "Add employee") {
+        addEmployee();
+      }
+
+      else if(answer.choice === "View departments") {
+        viewDepartments();
+      }
+
+      else if(answer.choice === "View roles") {
+        viewRoles();
+      }
+
+      else if(answer.choice === "View employees") {
+        viewEmployees();
+      }
+
+      else if(answer.choice === "Update employee roles") {
+        UpdateRoles();
+      }
+
+      else{
         connection.end();
       }
     });
 }
+
+// === VIEW FUNCTIONS FIRST == //
+function viewDepartments() {
+    connection.query("SELECT * from department", 
+    function(err, res) {
+      if (err) throw err
+      console.table(res)
+      start()
+    })
+  }
+
+// === VIEW ROLES == //
+  function viewRoles() {
+    connection.query("SELECT * from role", 
+    function(err, res) {
+      if (err) throw err
+      console.table(res)
+      start()
+    })
+  }
+
+// === VIEW EMPLOYEES == //
+  function viewEmployees() {
+    connection.query("SELECT * from employee", 
+    function(err, res) {
+      if (err) throw err
+      console.table(res)
+      start()
+    })
+  }
+
+
+  // === ADD ROLES == //
+  function addRoles() { 
+    connection.query("SELECT * from role", function(err, res) {
+      inquirer.prompt([
+          {
+            name: "title",
+            type: "input",
+            message: "What is the title of the role?"
+          },
+          {
+            name: "salary",
+            type: "input",
+            message: "What is the Salary?"
+  
+          } 
+      ]).then(function(res) {
+          connection.query(
+              "INSERT INTO role SET ?",
+              {
+                title: res.Title,
+                salary: res.Salary,
+              },
+              function(err) {
+                  if (err) throw err
+                  console.table(res);
+                  startPrompt();
+              }
+          )
+  
+      });
+    });
+    }
 
 // function to handle posting new items up for auction
 function postAuction() {
