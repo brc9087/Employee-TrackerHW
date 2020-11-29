@@ -32,10 +32,8 @@ function start() {
             type: "list",
             message: "What would you like to do",
             choices: ["Add departments",
-                // "Add roles",
                 "Add employee",
                 "View departments",
-                // "View roles",
                 "View employees",
                 "Update employee roles"]
 
@@ -45,9 +43,6 @@ function start() {
             if (answer.choice === "Add departments") {
                 addDepartments();
             }
-            // else if (answer.choice === "Add roles") {
-            //     addRoles();
-            // }
 
             else if (answer.choice === "Add employee") {
                 addEmployee();
@@ -56,10 +51,6 @@ function start() {
             else if (answer.choice === "View departments") {
                 viewDepartments();
             }
-
-            // else if (answer.choice === "View roles") {
-            //     viewRoles();
-            // }
 
             else if (answer.choice === "View employees") {
                 viewEmployees();
@@ -85,15 +76,6 @@ function viewDepartments() {
         })
 }
 
-// === VIEW ROLES == //
-// function viewRoles() {
-//     connection.query("SELECT * from role",
-//         function (err, res) {
-//             if (err) throw err
-//             console.table(res)
-//             start()
-//         })
-// };
 
 // === VIEW EMPLOYEES == //
 function viewEmployees() {
@@ -105,36 +87,6 @@ function viewEmployees() {
         })
 };
 
-
-// === ADD ROLES == //
-// function addRoles() {
-//         inquirer.prompt([
-//             {
-//                 name: "title",
-//                 type: "input",
-//                 message: "What is the title of the role?"
-//             },
-//             {
-//                 name: "salary",
-//                 type: "input",
-//                 message: "What is the salary?"
-
-//             }
-//         ]).then(function (res) {
-//             connection.query(
-//                 "INSERT INTO employee SET ?",
-//                 {
-//                     title: res.title,
-//                     salary: res.salary,
-//                 },
-//                 function (err) {
-//                     if (err) throw err
-//                     console.table(res);
-//                     start();
-//                 }
-//             )
-//         });
-// }
 
 // === ADD DEPARTMENTS == //
 function addDepartments() {
